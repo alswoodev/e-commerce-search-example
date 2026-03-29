@@ -1,0 +1,64 @@
+{
+  "analysis": {
+    "analyzer": {
+      "edge_ngram_analyzer": {
+        "type": "custom",
+        "tokenizer": "edge_ngram_tokenizer",
+        "filter": [ "lowercase" ]
+      },
+      "product_index_analyzer": {
+        "type": "custom",
+        "char_filter": ["icu_normalizer"],  
+        "tokenizer": "my_nori_tokenizer",
+        "filter": [
+          "nori_readingform",
+          "nori_number",
+          "nori_pos_filter",
+          "icu_normalizer",
+          "lowercase"
+        ]
+      },
+      "product_search_analyzer": {
+        "type": "custom",
+        "char_filter": ["icu_normalizer"],  
+        "tokenizer": "my_nori_tokenizer",
+        "filter": [
+          "nori_readingform",
+          "nori_number",
+          "nori_pos_filter",
+          "icu_normalizer",
+          "lowercase",
+          "pro_synonym_graph_filter"
+        ]
+      }
+    },
+    "tokenizer": {
+      "edge_ngram_tokenizer": {
+        "type": "edge_ngram",
+        "min_gram": 1,
+        "max_gram": 20,
+        "token_chars": [ "letter", "digit" ]
+      },
+      "my_nori_tokenizer": {
+        "type": "nori_tokenizer",
+        "decompound_mode": "mixed",
+        "discard_punctuation": true,
+        "user_dictionary": "/usr/share/elasticsearch/config/analysis/userdict.txt"
+      }
+    },
+    "filter":{
+      "pro_synonym_graph_filter": {
+        "type": "synonym_graph", 
+        "synonyms_path": "/usr/share/elasticsearch/config/analysis/synonyms.txt",
+        "expand":true,
+        "updateable": true
+      },
+      "nori_pos_filter" : {
+        "type": "nori_part_of_speech",
+        "stoptags": [
+          "E", "IC", "J", "MAG", "MAJ", "MM", "SP", "SSC", "SSO", "SC", "SE", "XPN", "XSA", "XSN", "XSV", "UNA", "NA", "VSV"
+        ]
+      }
+    }
+  }
+}
