@@ -31,21 +31,30 @@ public class Product {
     @MultiField(
         mainField = @Field(name = "master_name", type = FieldType.Text, 
         analyzer = "product_index_analyzer", searchAnalyzer = "product_search_analyzer"),
-        otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword)
+        otherFields = {
+            @InnerField(suffix = "keyword", type = FieldType.Keyword), 
+            @InnerField(suffix = "chosung", type = FieldType.Text, analyzer = "chosung_index_analyzer", searchAnalyzer = "chosung_search_analyzer")
+        }
     )
     private String masterName;
 
     @MultiField(
         mainField = @Field(name = "name", type = FieldType.Text, 
         analyzer = "product_index_analyzer", searchAnalyzer = "product_search_analyzer"),
-        otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword)
+        otherFields = {
+            @InnerField(suffix = "keyword", type = FieldType.Keyword), 
+            @InnerField(suffix = "chosung", type = FieldType.Text, analyzer = "chosung_index_analyzer", searchAnalyzer = "chosung_search_analyzer")
+        }
     )
     private String name;
 
     @MultiField(
         mainField = @Field(name = "keywords", type = FieldType.Text, 
         analyzer = "product_index_analyzer", searchAnalyzer = "product_search_analyzer"),
-        otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword)
+        otherFields = {
+            @InnerField(suffix = "keyword", type = FieldType.Keyword), 
+            @InnerField(suffix = "chosung", type = FieldType.Text, analyzer = "chosung_index_analyzer", searchAnalyzer = "chosung_search_analyzer")
+        }
     )
     private String keywords;
 

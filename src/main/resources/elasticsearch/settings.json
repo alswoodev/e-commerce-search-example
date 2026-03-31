@@ -30,6 +30,30 @@
           "lowercase",
           "pro_synonym_graph_filter"
         ]
+      },
+      "chosung_index_analyzer":{
+        "type":"custom",
+        "filter":[
+            "lowercase",
+            "ngram_filter"
+        ],
+        "char_filter":[
+            "nfd_normalizer",
+            "make_chosung_filter"
+        ],
+        "tokenizer":"icu_tokenizer"
+      },
+      "chosung_search_analyzer" : {
+        "type":"custom",
+        "filter":[
+            "lowercase",
+            "ngram_filter"
+        ],
+        "char_filter":[
+            "chosung_only_filter",
+            "nfd_normalizer"
+        ],
+        "tokenizer":"icu_tokenizer"
       }
     },
     "tokenizer": {
@@ -51,6 +75,23 @@
         "user_dictionary": "/usr/share/elasticsearch/config/analysis/userdict.txt"
       }
     },
+    "char_filter":{
+      "nfd_normalizer":{
+        "name":"nfkc",
+        "mode":"decompose",
+        "type":"icu_normalizer"
+      },
+      "make_chosung_filter":{
+        "type":"pattern_replace",
+        "pattern":"[^\u1100-\u1112^0-9a-zA-Z가-힣ㄱ-ㅎ ㅏ-ㅑ]",
+        "replacement":""
+      },
+      "chosung_only_filter":{
+        "type":"pattern_replace",
+        "pattern":"[^ㄱ-ㅎa-zA-Z0-9]",
+        "replacement":""
+      }
+    },
     "filter":{
       "pro_synonym_graph_filter": {
         "type": "synonym_graph", 
@@ -63,6 +104,11 @@
         "stoptags": [
           "E", "IC", "J", "MAG", "MAJ", "MM", "SP", "SSC", "SSO", "SC", "SE", "XPN", "XSA", "XSN", "XSV", "UNA", "NA", "VSV"
         ]
+      },
+      "ngram_filter":{
+        "type":"ngram",
+        "min_gram":1,
+        "max_gram":2
       }
     }
   }

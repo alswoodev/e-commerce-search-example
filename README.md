@@ -39,6 +39,18 @@ curl -u elastic:pwd -X POST "http://localhost:9200/products/_analyze?pretty" -H 
   "text": "나이키 에어맥스 운동화"
 }'
 
+curl -u elastic:pwd -X POST "http://localhost:9200/products/_analyze?pretty" -H 'Content-Type: application/json' -d'
+{
+  "analyzer" : "chosung_index_analyzer",
+  "text": "나이키 에어맥스 운동화"
+}'
+
+curl -u elastic:pwd -X POST "http://localhost:9200/products/_analyze?pretty" -H 'Content-Type: application/json' -d'
+{
+  "analyzer" : "chosung_search_analyzer",
+  "text": "ㄴㅇㅋ ㅇㅇㅁㅅ"
+}'
+
 curl -u elastic:pwd -X GET "http://localhost:9200/products/_analyze" -H 'Content-Type: application/json' -d'
 {
   "analyzer" : "product_search_analyzer",
